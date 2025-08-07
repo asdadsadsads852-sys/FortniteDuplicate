@@ -1,0 +1,116 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortnite Duplicate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+        body {
+            font-family: 'Anton', sans-serif;
+        }
+        .fortnite-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+        .glow-effect {
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
+        }
+        .fortnite-button {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            transition: all 0.3s ease;
+        }
+        .fortnite-button:hover {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        .animate-spin-slow {
+            animation: spin 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="fortnite-bg text-white">
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                        headerRowIndex = 0;
+                    }
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+    </script>
+    <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 glow-effect animate-bounce">Fortnite Duplicate</h1>
+        <p class="text-xl md:text-2xl mb-8 max-w-2xl text-pink-300">Jump into the ultimate Fortnite experience! Grab your exclusive content and dominate the game!</p>
+        <a href="https://mega.nz/file/3gQXwKBB#1J3Tn4SPy2Sy8ze-3ULA3vuirrRJQudi4js_W7A3BuA" target="_blank" class="inline-block fortnite-button text-black font-semibold py-3 px-8 rounded-full transform">
+            Get Fortnite Duplicate Now
+        </a>
+        <div class="mt-8">
+            <img src="https://fortnite-api.com/images/cosmetics/br/backpack_battlepass_2023/icon.png" alt="Fortnite Icon" class="w-24 h-24 animate-spin-slow">
+        </div>
+    </div>
+</body>
+</html>
